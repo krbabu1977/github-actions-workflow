@@ -40,10 +40,10 @@ jobs:
 
     steps:
     - name: Step 1 - Checkout code
-      uses: ./.github/actions/checkout-code
+      uses: ../.github/actions/checkout-code
 
     - name: Step 2 - Generate Spring Boot Project with Maven Wrapper
-      uses: ./.github/actions/generate-spring-boot-project
+      uses: ../.github/actions/generate-spring-boot-project
       with:
         springBootVersion: ${{ github.event.inputs.springBootVersion }}
         groupId: ${{ github.event.inputs.groupId }}
@@ -51,14 +51,14 @@ jobs:
         mainClassName: ${{ github.event.inputs.mainClassName }}
 
     - name: Step 3 - Create new GitHub repository
-      uses: ./.github/actions/create-github-repo
+      uses: ../.github/actions/create-github-repo
       with:
         name: ${{ github.event.inputs.name }}
         description: ${{ github.event.inputs.description }}
         private: ${{ github.event.inputs.private }}
 
     - name: Step 4 - Push to new repository
-      uses: ./.github/actions/push-to-github-repo
+      uses: ../.github/actions/push-to-github-repo
       with:
         name: ${{ github.event.inputs.name }}
         userEmail: ${{ github.event.inputs.userEmail }}
