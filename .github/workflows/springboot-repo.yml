@@ -22,7 +22,7 @@ on:
       springBootVersion:
         description: 'Spring Boot Version'
         required: true
-        default: '3.3.3'
+        default: '3.2.9'
       javaVersion:
         description: 'Java Version'
         required: true
@@ -54,7 +54,7 @@ jobs:
     - name: Step 1 - Checkout code
       uses: actions/checkout@v3
 
-    - name:  Step 2 - Generate Spring Boot Project with Maven Wrapper
+    - name: Step 2 - Generate Spring Boot Project with Maven Wrapper
       run: |
         curl https://start.spring.io/starter.zip \
           -d dependencies=${{ github.event.inputs.dependencies }} \
@@ -83,7 +83,7 @@ jobs:
     - name: Step 4 - Push to new repository
       run: |
         cd spring-boot-project
-        echo "# ${{  github.event.inputs.name }}" >> README.md
+        echo "# ${{ github.event.inputs.name }}" >> README.md
         git config --global user.email "${{ github.event.inputs.userEmail }}"
         git config --global user.name "${{ github.event.inputs.userName }}"
         git init
