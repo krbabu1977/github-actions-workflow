@@ -22,19 +22,7 @@ on:
       springBootVersion:
         description: 'Spring Boot Version'
         required: true
-        default: '3.0.0'
-      javaVersion:
-        description: 'Java Version'
-        required: true
-        default: '17'
-      packaging:
-        description: 'Packaging'
-        required: true
-        default: 'jar' 
-      dependencies:
-        description: 'Dependencies'
-        required: true
-        default: 'web,devtools'                    
+        default: '3.0.0'                
       mainClassName:
         description: 'Main Class Name'
         required: true
