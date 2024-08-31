@@ -22,15 +22,11 @@ on:
       springBootVersion:
         description: 'Spring Boot Version'
         required: true
-        default: '3.3.3'
+        default: '3.0.0'
       mainClassName:
         description: 'Main Class Name'
         required: true
         default: 'Application'
-      dependencies:
-        description: 'Spring Boot Dependencies'
-        required: true
-        default: 'web,devtools'
       userName:
         description: 'User Name'
         required: true
@@ -48,7 +44,7 @@ jobs:
 
     - name:  Step 2 - Generate Spring Boot Project with Maven Wrapper
       run: |
-        curl https://start.spring.io/starter.zip -o project.zip \             
+        curl https://start.spring.io/starter.zip -o project.zip \
              -d type=maven-project \
              -d bootVersion=${{ github.event.inputs.springBootVersion }} \
              -d groupId=${{ github.event.inputs.groupId }} \
