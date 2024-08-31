@@ -44,15 +44,16 @@ jobs:
 
     - name:  Step 2 - Generate Spring Boot Project with Maven Wrapper
       run: |
-        curl https://start.spring.io/starter.zip -o project.zip \
-             -d dependencies=web,devtools \        
-             -d type=maven-project \
-             -d bootVersion=${{ github.event.inputs.springBootVersion }} \
-             -d groupId=${{ github.event.inputs.groupId }} \
-             -d artifactId=${{ github.event.inputs.artifactId }} \
-             -d name=${{ github.event.inputs.mainClassName }}
-             -d javaVersion=11 \ 
-             -d packaging=jar \              
+        curl https://start.spring.io/starter.zip \
+          -d dependencies=web,devtools \
+          -d type=maven-project \
+          -d bootVersion=${{ github.event.inputs.springBootVersion }} \
+          -d groupId=${{ github.event.inputs.groupId }} \
+          -d artifactId=${{ github.event.inputs.artifactId }} \
+          -d name=${{ github.event.inputs.mainClassName }} \
+          -d javaVersion=11 \
+          -d packaging=jar \
+          -o project.zip
         unzip project.zip -d spring-boot-project
         cd spring-boot-project
         mvn wrapper:wrapper
