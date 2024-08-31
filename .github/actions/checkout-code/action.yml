@@ -1,8 +1,0 @@
-name: Checkout Code
-description: Checkout the repository code
-
-runs:
-  using: "composite"
-  steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
