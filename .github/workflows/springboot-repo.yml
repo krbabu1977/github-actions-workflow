@@ -50,7 +50,6 @@ jobs:
       run: |
         curl https://start.spring.io/starter.zip -o project.zip \             
              -d type=maven-project \
-             -d dependencies=${{ github.event.inputs.dependencies }} \
              -d bootVersion=${{ github.event.inputs.springBootVersion }} \
              -d groupId=${{ github.event.inputs.groupId }} \
              -d artifactId=${{ github.event.inputs.artifactId }} \
