@@ -40,28 +40,43 @@ jobs:
 
     steps:
     - name: Step 1 - Checkout code
-      uses: ../.github/actions/checkout-code
+      uses: actions/checkout@v3
 
-    - name: Step 2 - Generate Spring Boot Project with Maven Wrapper
-      uses: ../.github/actions/generate-spring-boot-project
-      with:
-        springBootVersion: ${{ github.event.inputs.springBootVersion }}
-        groupId: ${{ github.event.inputs.groupId }}
-        artifactId: ${{ github.event.inputs.artifactId }}
-        mainClassName: ${{ github.event.inputs.mainClassName }}
+    - name:  Step 2 - Generate Spring Boot Project with Maven Wrapper
+      run: |
+        curl https://start.spring.io/starter.zip -o project.zip \
+             -d type=maven-project \
+             -d bootVersion=${{ github.event.inputs.springBootVersion }} \
+             -d groupId=${{ github.event.inputs.groupId }} \
+             -d artifactId=${{ github.event.inputs.artifactId }} \
+             -d name=${{ github.event.inputs.mainClassName }}
+        unzip project.zip -d spring-boot-project
+        cd spring-boot-project
+        mvn wrapper:wrapper
 
     - name: Step 3 - Create new GitHub repository
-      uses: ../.github/actions/create-github-repo
-      with:
-        name: ${{ github.event.inputs.name }}
-        description: ${{ github.event.inputs.description }}
-        private: ${{ github.event.inputs.private }}
+      run: |
+        curl -X POST -H "Authorization: token ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}" \
+             -d '{
+                  "name": "${{ github.event.inputs.name }}",
+                  "description": "${{ github.event.inputs.description }}",
+                  "private": ${{ github.event.inputs.private }}
+                }' \
+             https://api.github.com/user/repos
 
     - name: Step 4 - Push to new repository
-      uses: ../.github/actions/push-to-github-repo
-      with:
-        name: ${{ github.event.inputs.name }}
-        userEmail: ${{ github.event.inputs.userEmail }}
-        userName: ${{ github.event.inputs.userName }}
+      run: |
+        cd spring-boot-project
+        echo "# ${{  github.event.inputs.name }}" >> README.md
+        git config --global user.email "${{ github.event.inputs.userEmail }}"
+        git config --global user.name "${{ github.event.inputs.userName }}"
+        git init
+        git add .
+        git add README.md
+        git commit -m "first commit"
+        git branch -M main
+        git remote add origin git@github.com:${{ github.actor }}/${{ github.event.inputs.name }}.git
+        git remote set-url origin https://x-access-token:${{ env.GH_PERSONAL_ACCESS_TOKEN }}@github.com/${{ github.actor }}/${{ github.event.inputs.name }}
+        git push -u origin main  # Push to 'main' branch
       env:
         GH_PERSONAL_ACCESS_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
