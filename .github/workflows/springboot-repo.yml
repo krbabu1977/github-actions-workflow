@@ -27,6 +27,10 @@ on:
         description: 'Main Class Name'
         required: true
         default: 'Application'
+      dependencies:
+        description: 'Spring Boot Dependencies'
+        required: true
+        default: 'web,devtools'
       userName:
         description: 'User Name'
         required: true
