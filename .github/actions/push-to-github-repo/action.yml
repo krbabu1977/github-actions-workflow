@@ -1,0 +1,26 @@
+name: Create GitHub Repository
+description: Create a new GitHub repository
+
+inputs:
+  name:
+    description: 'Repository Name'
+    required: true
+  description:
+    description: 'Repository Description'
+    required: true
+  private:
+    description: 'Private Repository'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Create new GitHub repository
+      run: |
+        curl -X POST -H "Authorization: token ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}" \
+             -d '{
+                  "name": "${{ inputs.name }}",
+                  "description": "${{ inputs.description }}",
+                  "private": ${{ inputs.private }}
+                }' \
+             https://api.github.com/user/repos
